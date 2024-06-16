@@ -60,7 +60,7 @@ class BookQuery extends ObjectType
     public function getBook($rootVal, array $args)
     {
 
-        if (!is_null($args['id']))
+        if (is_null($args['id']))
             return ['message' => 'The book id is required'];
 
 
