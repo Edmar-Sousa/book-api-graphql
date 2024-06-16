@@ -96,7 +96,7 @@ class CategoryModel
             'search' => $search,
         ]);
 
-        $categorys = $connection->fetchOne();
+        $categorys = $connection->fetchAll();
         $connection->closeConnection();
 
         return $categorys;
