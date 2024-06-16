@@ -60,6 +60,7 @@ class CategoryModel
 
         $connection = new Conection();
         $connection->prepareQuery($selectCategorySql);
+        $connection->execute();
 
         $categorys = $connection->fetchAll();
         $connection->closeConnection();
@@ -68,7 +69,7 @@ class CategoryModel
     }
 
 
-    public function getCategoryWithId(string $id)
+    public function getCategoryWithId(int $id)
     {
         $selectCategorySql = 'SELECT * FROM categories WHERE id = :id';
 
