@@ -13,7 +13,7 @@ class AuthorModel
 
     private function gatLatestAuthorInserted(Conection &$conection)
     {
-        $lastIdInserted = 'SELECT * FROM authors WHERE id = ()';
+        $lastIdInserted = 'SELECT * FROM authors WHERE id = LAST_INSERT_ID()';
 
         $conection->prepareQuery($lastIdInserted);
         $conection->execute();
