@@ -63,15 +63,12 @@ class AuthorMultation extends ObjectType
     {
         $authorModel = new AuthorModel();
 
-        $authorModel->addAuthor([
+        $author = $authorModel->addAuthor([
             'name' => $args['name'],
             'bio' => $args['bio'],
         ]);
 
-        return [
-            'name' => $args['name'],
-            'bio' => $args['bio'],
-        ];
+        return $author;
     }
 
 

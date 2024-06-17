@@ -11,6 +11,18 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 class AuthorModel
 {
 
+    private function gatLatestAuthorInserted(Conection &$conection)
+    {
+        $lastIdInserted = 'SELECT * FROM authors WHERE id = ()';
+
+        $conection->prepareQuery($lastIdInserted);
+        $conection->execute();
+
+        $latestAuthor = $conection->fetchOne();
+
+        return $latestAuthor;
+    }
+
     public function addAuthor(array $authorData)
     {
         $insertAuthorSql = <<<SQL
@@ -24,7 +36,11 @@ class AuthorModel
         $connection->prepareQuery($insertAuthorSql);
         $connection->execute($authorData);
 
+        $authorCreated = $this->gatLatestAuthorInserted($connection);
+
         $connection->closeConnection();
+
+        return $authorCreated;
     }
 
 
@@ -64,7 +80,7 @@ class AuthorModel
         return $authorToDelete;
     }
 
-    public function getAuthorWithId(int $id)
+    public function getAuthorWithId(int|string $id)
     {
         $selectAuthorSql = 'SELECT * FROM authors WHERE id = :id';
 
