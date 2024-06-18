@@ -140,30 +140,43 @@ class AuthorQueryTest extends TestCase
     }
 
 
-    // public function testSearchAuthor()
-    // {
-    //     $query = '{
-    //         searchAuthors (search: "Edinho") {
-    //             id
-    //             name
-    //             bio
-    //         }
-    //     }';
+    #[Depends('testAddAuthor')]
+    public function testSearchAuthor(int $authorId)
+    {
+        $query = '{
+            searchAuthors (search: "Author Mock") {
+                id
+                name
+                bio
+            }
+        }';
 
 
-    //     $result = GraphQL::executeQuery($this->authorSchema, $query);
-    //     $output = $result->toArray();
+        $result = GraphQL::executeQuery($this->authorSchema, $query);
+        $output = $result->toArray();
 
-    //     $expected = [
-    //         'searchAuthors' => [
-    //             [
-    //                 'id' => 1,
-    //                 'name' => 'Edinho',
-    //                 'bio' => 'Um otimo escritor',
-    //             ]
-    //         ]
-    //     ];
+        $this->assertArrayHasKey('searchAuthors', $output['data']);
 
-    //     return $this->assertEquals($expected, $output['data']);
-    // }
+        $authors = $output['data']['searchAuthors'];
+
+        $expected = [
+            'id' => $authorId,
+            'name' => 'Author Mock',
+            'bio' => 'Testando insert author',
+        ];
+
+        $this->assertTrue(
+            array_reduce(
+                $authors,
+                function ($found, $author) use ($expected) {
+                    return $found || (
+                        $author['id'] == $expected['id'] &&
+                        $author['name'] == $expected['name'] &&
+                        $author['bio'] == $expected['bio']
+                    );
+                },
+                false
+            )
+        );
+    }
 }
