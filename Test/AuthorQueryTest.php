@@ -179,4 +179,38 @@ class AuthorQueryTest extends TestCase
             )
         );
     }
+
+
+
+    #[Depends('testAddAuthor')]
+    public function testUpdateAuthor(int $authorId)
+    {
+        $query = "mutation {
+            updateAuthor (id: $authorId, name: \"Author Updated\", bio: \"Bio updated author\") {
+                id
+                name
+                bio
+            }
+        }";
+
+        $result = GraphQL::executeQuery($this->authorSchema, $query);
+        $output = $result->toArray();
+
+
+        $this->assertNotEmpty($output['data'], 'The "data" is empty');
+
+
+        $mockAuthor = [
+            'updateAuthor' => [
+                'id' => $output['data']['updateAuthor']['id'],
+                'name' => 'Author Updated',
+                'bio' => 'Bio updated author',
+            ],
+        ];
+
+        $this->assertEquals($mockAuthor, $output['data']);
+
+
+        return $output['data']['updateAuthor']['id'];
+    }
 }
