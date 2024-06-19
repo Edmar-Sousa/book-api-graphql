@@ -69,7 +69,7 @@ class AuthorModel
     {
         $authorToDelete = $this->getAuthorWithId($id);
 
-        $deleteAuthorSql = 'DELETE FROM authors WHERE id = ?';
+        $deleteAuthorSql = 'DELETE FROM authors WHERE id = :id';
 
         $connection = new Conection();
         $connection->prepareQuery($deleteAuthorSql);
