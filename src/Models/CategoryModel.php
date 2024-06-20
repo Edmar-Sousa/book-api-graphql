@@ -11,6 +11,21 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 class CategoryModel
 {
 
+    private function getLatestCategoryInserted(Conection &$connection)
+    {
+        $selectLatestSql = 'SELECT * FROM categories WHERE id = LAST_INSERT_ID()';
+
+        $connection->prepareQuery($selectLatestSql);
+        $connection->execute();
+
+        $category = $connection->fetchOne();
+
+        $connection->closeConnection();
+
+        return $category;
+    }
+
+
     public function addCategory(array $dataCategory)
     {
         $insertCategorySql = 'INSERT INTO categories(title) VALUES (:title)';
@@ -20,7 +35,11 @@ class CategoryModel
         $connection->prepareQuery($insertCategorySql);
         $connection->execute($dataCategory);
 
+        $category = $this->getLatestCategoryInserted($connection);
+
         $connection->closeConnection();
+
+        return $category;
     }
 
 

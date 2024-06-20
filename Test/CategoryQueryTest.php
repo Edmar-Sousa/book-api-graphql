@@ -11,6 +11,7 @@ use GraphQL\Type\SchemaConfig;
 use PHPUnit\Framework\TestCase;
 
 
+use Src\Schema\Multation\CategoryMultation;
 use Src\Schema\Query\CategoryQuery;
 
 
@@ -24,11 +25,35 @@ class CategoryQueryTest extends TestCase
     {
 
         $this->categorySchema = new Schema(
-            (new SchemaConfig())->setQuery(new CategoryQuery())
+            (new SchemaConfig())
+                ->setQuery(new CategoryQuery())
+                ->setMutation(new CategoryMultation())
         );
 
     }
 
+
+    public function testAddCategory()
+    {
+        $query = 'mutation {
+            addCategory (title: "mock category") {
+                id
+                title
+            }
+        }';
+
+        $result = GraphQL::executeQuery($this->categorySchema, $query);
+        $output = $result->toArray();
+
+        $expected = [
+            'addCategory' => [
+                'id' => $output['data']['addCategory']['id'],
+                'title' => 'mock category',
+            ]
+        ];
+
+        $this->assertEquals($expected, $output['data']);
+    }
 
 
     public function testListCategory()

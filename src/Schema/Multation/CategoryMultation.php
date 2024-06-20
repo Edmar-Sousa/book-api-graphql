@@ -24,7 +24,7 @@ class CategoryMultation extends ObjectType
                     'type' => new Category(),
 
                     'args' => [
-                        'name' => Type::nonNull(Type::string()),
+                        'title' => Type::nonNull(Type::string()),
                     ],
 
                     'resolve' => [$this, 'addCategory'],
@@ -59,9 +59,11 @@ class CategoryMultation extends ObjectType
     {
         $categoryModel = new CategoryModel();
 
-        $categoryModel->addCategory([
-            'title' => $args['name'],
+        $category = $categoryModel->addCategory([
+            'title' => $args['title'],
         ]);
+
+        return $category;
     }
 
 
