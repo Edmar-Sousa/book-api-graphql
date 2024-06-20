@@ -11,6 +11,7 @@ use GraphQL\Type\SchemaConfig;
 use PHPUnit\Framework\TestCase;
 
 
+use Src\Schema\Multation\BookMultation;
 use Src\Schema\Query\BookQuery;
 
 
@@ -24,7 +25,9 @@ class BookQueryTest extends TestCase
     {
 
         $this->bookSchema = new Schema(
-            (new SchemaConfig())->setQuery(new BookQuery())
+            (new SchemaConfig())
+                ->setQuery(new BookQuery())
+                ->setMutation(new BookMultation())
         );
 
     }
