@@ -8,16 +8,19 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 
 use Src\Schema\Multation\BookMultation;
 use Src\Schema\Query\BookQuery;
+use Src\Traits\AssertArray;
 
 
 class BookQueryTest extends TestCase
 {
 
+    use AssertArray;
     protected Schema $bookSchema;
 
 
@@ -34,7 +37,49 @@ class BookQueryTest extends TestCase
 
 
 
-    public function testListBooks()
+    public function testAddBook()
+    {
+        $query = 'mutation {
+            addBook (
+                title: "Livro Mock",
+                description: "Livro Mock para teste",
+                year: "2024-06-02",
+                author_id: 1,
+                category_id: 1
+            ) {
+                id
+                title
+                description
+                year
+                author_id
+                category_id
+            }
+        }';
+
+
+        $result = GraphQL::executeQuery($this->bookSchema, $query);
+        $output = $result->toArray();
+
+        $expected = [
+            'addBook' => [
+                'id' => $output['data']['addBook']['id'],
+                'title' => 'Livro Mock',
+                'description' => 'Livro Mock para teste',
+                'year' => '2024-06-02',
+                'author_id' => 1,
+                'category_id' => 1,
+            ]
+        ];
+
+
+        $this->assertEquals($expected, $output['data']);
+
+        return $output['data']['addBook']['id'];
+    }
+
+
+    #[Depends('testAddBook')]
+    public function testListBooks($bookId)
     {
         $query = '{ 
             listBooks {
@@ -53,16 +98,15 @@ class BookQueryTest extends TestCase
 
         $expected = [
             'listBooks' => [
-                [
-                    'id' => 4,
-                    'title' => 'Herry Potter - E a pedra',
-                    'description' => 'Harry',
-                    'year' => '2024-06-01',
-                    'author_id' => 1,
-                    'category_id' => 1,
-                ]
+                'id' => $bookId,
+                'title' => 'Livro Mock',
+                'description' => 'Livro Mock para teste',
+                'year' => '2024-06-02',
+                'author_id' => 1,
+                'category_id' => 1,
             ]
         ];
+
 
         $this->assertEquals($expected, $output['data']);
     }
