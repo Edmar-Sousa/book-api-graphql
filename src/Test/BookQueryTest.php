@@ -166,18 +166,55 @@ class BookQueryTest extends TestCase
         $books = $output['data']['searchBooks'];
 
         $expected = [
-            'searchBooks' => [
-                [
-                    'id' => $categoryId,
-                    'title' => 'Livro Mock',
-                    'description' => 'Livro Mock para teste',
-                    'year' => '2024-06-02',
-                    'author_id' => 1,
-                    'category_id' => 1,
-                ],
-            ]
+            'id' => $categoryId,
+            'title' => 'Livro Mock',
+            'description' => 'Livro Mock para teste',
+            'year' => '2024-06-02',
+            'author_id' => 1,
+            'category_id' => 1,
         ];
 
         $this->assertArrayContains($expected, $books, $this);
+    }
+
+
+    #[Depends('testAddBook')]
+    public function testUpdateBook($categoryId)
+    {
+        $query = "mutation {
+            updateBook (
+                id: $categoryId,
+                title: \"Teste update book\",
+                author_id: 1,
+                category_id: 1,
+                description: \"Descricao update book\",
+                year: \"2024-06-02\"
+            ) {
+                id
+                title
+                author_id
+                category_id
+                description
+                year
+            }
+        }";
+
+        $result = GraphQL::executeQuery($this->bookSchema, $query);
+        $output = $result->toArray();
+
+
+        $expected = [
+            'updateBook' => [
+                'id' => $categoryId,
+                'title' => 'Teste update book',
+                'description' => 'Descricao update book',
+                'year' => '2024-06-02',
+                'author_id' => 1,
+                'category_id' => 1,
+            ]
+        ];
+
+        $this->assertEquals($expected, $output['data']);
+
     }
 }

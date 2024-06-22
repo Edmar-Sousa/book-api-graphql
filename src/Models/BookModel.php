@@ -59,9 +59,9 @@ class BookModel
             UPDATE books 
             SET title = :title,
                 description = :description,
-                year = :publishedYear,
-                author_id = :authorId,
-                category_id = :categoryId
+                year = :year,
+                author_id = :author_id,
+                category_id = :category_id
             WHERE id = :id
         SQL;
 
