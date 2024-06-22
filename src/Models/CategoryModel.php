@@ -57,7 +57,7 @@ class CategoryModel
     }
 
 
-    public function deleteCategory(string $id)
+    public function deleteCategory(int $id)
     {
         $deleteCategorySql = 'DELETE FROM categories WHERE id = :id';
 

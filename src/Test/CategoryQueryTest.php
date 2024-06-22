@@ -141,4 +141,59 @@ class CategoryQueryTest extends TestCase
 
         $this->assertArrayContains($expected, $categorys, $this);
     }
+
+
+    #[Depends('testAddCategory')]
+    public function testUpdateCategory($categoryId)
+    {
+        $query = "mutation {
+            updateCategory(title: \"Update Category\", id: $categoryId) {
+                id
+                title
+            }
+        }";
+
+
+        $result = GraphQL::executeQuery($this->categorySchema, $query);
+        $output = $result->toArray();
+
+
+        $expected = [
+            'updateCategory' => [
+                'id' => $categoryId,
+                'title' => 'Update Category',
+            ]
+        ];
+
+
+        $this->assertEquals($expected, $output['data']);
+
+        return $categoryId;
+    }
+
+
+    #[Depends('testUpdateCategory')]
+    public function testDeleteCategory($categoryId)
+    {
+        $query = "mutation {
+            deleteCategory(id: $categoryId) {
+                id
+                title
+            }
+        }";
+
+        $result = GraphQL::executeQuery($this->categorySchema, $query);
+        $output = $result->toArray();
+
+
+        $expected = [
+            'deleteCategory' => [
+                'id' => $categoryId,
+                'title' => 'Update Category',
+            ]
+        ];
+
+
+        $this->assertEquals($expected, $output['data']);
+    }
 }
