@@ -112,10 +112,10 @@ class BookQueryTest extends TestCase
 
 
     #[Depends('testAddBook')]
-    public function testGetBook($categoryId)
+    public function testGetBook($bookId)
     {
         $query = "{ 
-            getBook (id: $categoryId) {
+            getBook (id: $bookId) {
                 id
                 title
                 description
@@ -132,7 +132,7 @@ class BookQueryTest extends TestCase
 
         $expected = [
             'getBook' => [
-                'id' => $categoryId,
+                'id' => $bookId,
                 'title' => 'Livro Mock',
                 'description' => 'Livro Mock para teste',
                 'year' => '2024-06-02',
@@ -146,7 +146,7 @@ class BookQueryTest extends TestCase
 
 
     #[Depends('testAddBook')]
-    public function testSearchBook($categoryId)
+    public function testSearchBook($bookId)
     {
         $query = '{ 
             searchBooks (search: "Livro Mock") {
@@ -166,7 +166,7 @@ class BookQueryTest extends TestCase
         $books = $output['data']['searchBooks'];
 
         $expected = [
-            'id' => $categoryId,
+            'id' => $bookId,
             'title' => 'Livro Mock',
             'description' => 'Livro Mock para teste',
             'year' => '2024-06-02',
@@ -179,11 +179,11 @@ class BookQueryTest extends TestCase
 
 
     #[Depends('testAddBook')]
-    public function testUpdateBook($categoryId)
+    public function testUpdateBook($bookId)
     {
         $query = "mutation {
             updateBook (
-                id: $categoryId,
+                id: $bookId,
                 title: \"Teste update book\",
                 author_id: 1,
                 category_id: 1,
@@ -205,7 +205,7 @@ class BookQueryTest extends TestCase
 
         $expected = [
             'updateBook' => [
-                'id' => $categoryId,
+                'id' => $bookId,
                 'title' => 'Teste update book',
                 'description' => 'Descricao update book',
                 'year' => '2024-06-02',
@@ -216,5 +216,38 @@ class BookQueryTest extends TestCase
 
         $this->assertEquals($expected, $output['data']);
 
+    }
+
+
+    #[Depends('testAddBook')]
+    public function testDeleteBook($bookId)
+    {
+        $query = "mutation {
+            deleteBook(id: $bookId) {
+                id
+                title
+                description
+                year
+                author_id
+                category_id
+            }
+        }";
+
+        $result = GraphQL::executeQuery($this->bookSchema, $query);
+        $output = $result->toArray();
+
+
+        $expected = [
+            'deleteBook' => [
+                'id' => $bookId,
+                'title' => 'Teste update book',
+                'description' => 'Descricao update book',
+                'year' => '2024-06-02',
+                'author_id' => 1,
+                'category_id' => 1,
+            ]
+        ];
+
+        $this->assertEquals($expected, $output['data']);
     }
 }
