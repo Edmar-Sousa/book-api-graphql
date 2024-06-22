@@ -27,10 +27,10 @@ class BookMultation extends ObjectType
 
                     'args' => [
                         'title' => Type::nonNull(Type::string()),
-                        'authorId' => Type::nonNull(Type::string()),
-                        'categoryId' => Type::nonNull(Type::string()),
+                        'author_id' => Type::nonNull(Type::int()),
+                        'category_id' => Type::nonNull(Type::int()),
                         'description' => Type::nonNull(Type::string()),
-                        'publishedYear' => Type::nonNull(Type::string()),
+                        'year' => Type::nonNull(Type::string()),
                     ],
 
                     'resolve' => [$this, 'addBook'],
@@ -42,10 +42,10 @@ class BookMultation extends ObjectType
                     'args' => [
                         'id' => Type::nonNull(Type::int()),
                         'title' => Type::nonNull(Type::string()),
-                        'authorId' => Type::nonNull(Type::string()),
-                        'categoryId' => Type::nonNull(Type::string()),
+                        'author_id' => Type::nonNull(Type::int()),
+                        'category_id' => Type::nonNull(Type::int()),
                         'description' => Type::nonNull(Type::string()),
-                        'publishedYear' => Type::nonNull(Type::string()),
+                        'year' => Type::nonNull(Type::string()),
                     ],
 
                     'resolve' => [$this, 'updateBook'],
@@ -71,22 +71,15 @@ class BookMultation extends ObjectType
     {
         $bookModel = new BookModel();
 
-        $bookModel->addBook([
+        $book = $bookModel->addBook([
             'title' => $args['title'],
             'description' => $args['description'],
-            'year' => $args['publishedYear'],
-            'author_id' => $args['authorId'],
-            'category_id' => $args['categoryId'],
+            'year' => $args['year'],
+            'author_id' => $args['author_id'],
+            'category_id' => $args['category_id'],
         ]);
 
-        return [
-            'title' => $args['title'],
-            'description' => $args['description'],
-
-            'year' => $args['publishedYear'],
-            'author_id' => $args['authorId'],
-            'category_id' => $args['categoryId'],
-        ];
+        return $book;
     }
 
 
@@ -97,9 +90,9 @@ class BookMultation extends ObjectType
         $bookUpdated = $bookModel->updateBook([
             'title' => $args['title'],
             'description' => $args['description'],
-            'year' => $args['publishedYear'],
-            'author_id' => $args['authorId'],
-            'category_id' => $args['categoryId'],
+            'year' => $args['year'],
+            'author_id' => $args['author_id'],
+            'category_id' => $args['category_id'],
             'id' => $args['id'],
         ]);
 

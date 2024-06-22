@@ -11,6 +11,17 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 class BookModel
 {
 
+    private function getBookLatestInserted(Conection $conection)
+    {
+        $latestBookInsertedSql = 'SELECT * FROM books WHERE id = LAST_INSERT_ID()';
+
+        $conection->prepareQuery($latestBookInsertedSql);
+        $conection->execute();
+
+        return $conection->fetchOne();
+    }
+
+
     public function addBook(array $bookData)
     {
         $insertBookSql = <<<SQL
@@ -34,7 +45,11 @@ class BookModel
         $connection->prepareQuery($insertBookSql);
         $connection->execute($bookData);
 
+        $lastBookInserted = $this->getBookLatestInserted($connection);
+
         $connection->closeConnection();
+
+        return $lastBookInserted;
     }
 
 
