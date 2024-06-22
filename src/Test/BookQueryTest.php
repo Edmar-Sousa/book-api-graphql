@@ -96,26 +96,26 @@ class BookQueryTest extends TestCase
         $result = GraphQL::executeQuery($this->bookSchema, $query);
         $output = $result->toArray();
 
+        $books = $output['data']['listBooks'];
+
         $expected = [
-            'listBooks' => [
-                'id' => $bookId,
-                'title' => 'Livro Mock',
-                'description' => 'Livro Mock para teste',
-                'year' => '2024-06-02',
-                'author_id' => 1,
-                'category_id' => 1,
-            ]
+            'id' => $bookId,
+            'title' => 'Livro Mock',
+            'description' => 'Livro Mock para teste',
+            'year' => '2024-06-02',
+            'author_id' => 1,
+            'category_id' => 1,
         ];
 
-
-        $this->assertEquals($expected, $output['data']);
+        $this->assertArrayContains($expected, $books, $this);
     }
 
 
-    public function testGetBook()
+    #[Depends('testAddBook')]
+    public function testGetBook($categoryId)
     {
-        $query = '{ 
-            getBook (id: 4) {
+        $query = "{ 
+            getBook (id: $categoryId) {
                 id
                 title
                 description
@@ -123,7 +123,7 @@ class BookQueryTest extends TestCase
                 author_id
                 category_id
             }
-        }';
+        }";
 
 
         $result = GraphQL::executeQuery($this->bookSchema, $query);
@@ -132,10 +132,10 @@ class BookQueryTest extends TestCase
 
         $expected = [
             'getBook' => [
-                'id' => 4,
-                'title' => 'Herry Potter - E a pedra',
-                'description' => 'Harry',
-                'year' => '2024-06-01',
+                'id' => $categoryId,
+                'title' => 'Livro Mock',
+                'description' => 'Livro Mock para teste',
+                'year' => '2024-06-02',
                 'author_id' => 1,
                 'category_id' => 1,
             ]
@@ -144,10 +144,12 @@ class BookQueryTest extends TestCase
         $this->assertEquals($expected, $output['data']);
     }
 
-    public function testSearchBook()
+
+    #[Depends('testAddBook')]
+    public function testSearchBook($categoryId)
     {
         $query = '{ 
-            searchBooks (search: "Herry Potter - E a pedra") {
+            searchBooks (search: "Livro Mock") {
                 id
                 title
                 description
@@ -161,20 +163,21 @@ class BookQueryTest extends TestCase
         $result = GraphQL::executeQuery($this->bookSchema, $query);
         $output = $result->toArray();
 
+        $books = $output['data']['searchBooks'];
 
         $expected = [
             'searchBooks' => [
                 [
-                    'id' => 4,
-                    'title' => 'Herry Potter - E a pedra',
-                    'description' => 'Harry',
-                    'year' => '2024-06-01',
+                    'id' => $categoryId,
+                    'title' => 'Livro Mock',
+                    'description' => 'Livro Mock para teste',
+                    'year' => '2024-06-02',
                     'author_id' => 1,
                     'category_id' => 1,
                 ],
             ]
         ];
 
-        $this->assertEquals($expected, $output['data']);
+        $this->assertArrayContains($expected, $books, $this);
     }
 }
