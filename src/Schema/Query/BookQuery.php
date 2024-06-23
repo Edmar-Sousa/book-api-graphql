@@ -9,8 +9,6 @@ use GraphQL\Type\Definition\Type;
 use Src\Types\Book;
 use Src\Models\BookModel;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-
 
 
 class BookQuery extends ObjectType

@@ -9,8 +9,6 @@ use GraphQL\Type\Definition\Type;
 use Src\Models\AuthorModel;
 use Src\Types\Author;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-
 
 
 class AuthorQuery extends ObjectType

@@ -4,9 +4,6 @@ namespace Src\Models;
 
 use Src\Database\Conection;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
-
 
 class AuthorModel
 {

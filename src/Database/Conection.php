@@ -7,9 +7,6 @@ use PDOStatement;
 use RuntimeException;
 
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
-
 class Conection
 {
 

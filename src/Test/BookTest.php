@@ -17,7 +17,7 @@ use Src\Schema\Query\BookQuery;
 use Src\Traits\AssertArray;
 
 
-class BookQueryTest extends TestCase
+class BookTest extends TestCase
 {
 
     use AssertArray;

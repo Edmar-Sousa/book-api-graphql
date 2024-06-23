@@ -5,12 +5,9 @@ namespace Src\Schema\Multation;
 
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use PDO;
 
 use Src\Types\Author;
 use Src\Models\AuthorModel;
-
-require_once __DIR__ . '/../../../vendor/autoload.php';
 
 
 

@@ -2,13 +2,11 @@
 
 namespace Src\Schema\Multation;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
 
-
-
+use GraphQL\Error\UserError;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use PDO;
+
 
 use Src\Models\BookModel;
 use Src\Types\Book;
@@ -103,7 +101,7 @@ class BookMultation extends ObjectType
     public function deleteBook($rootVal, array $args)
     {
         if (is_null($args['id']))
-            return ['message' => 'Book id is required'];
+            throw new UserError('O campo id é obrigatorio');
 
         $bookModel = new BookModel();
 

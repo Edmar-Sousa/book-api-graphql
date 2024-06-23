@@ -5,12 +5,10 @@ namespace Src\Schema\Multation;
 
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use PDO;
 
 use Src\Models\CategoryModel;
 use Src\Types\Category;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
 
 
 class CategoryMultation extends ObjectType

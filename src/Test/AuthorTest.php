@@ -18,7 +18,7 @@ use Src\Traits\AssertArray;
 
 
 
-class AuthorQueryTest extends TestCase
+class AuthorTest extends TestCase
 {
 
     use AssertArray;

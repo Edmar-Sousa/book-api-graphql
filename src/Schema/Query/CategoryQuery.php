@@ -8,8 +8,6 @@ use GraphQL\Type\Definition\Type;
 use Src\Types\Category;
 use Src\Models\CategoryModel;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-
 
 
 class CategoryQuery extends ObjectType

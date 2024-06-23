@@ -18,7 +18,7 @@ use Src\Schema\Query\CategoryQuery;
 
 use Src\Traits\AssertArray;
 
-class CategoryQueryTest extends TestCase
+class CategoryTest extends TestCase
 {
     use AssertArray;
 
