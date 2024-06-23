@@ -9,5 +9,5 @@ $host = 'localhost';
 $port = 8000;
 
 
-passthru(PHP_BINARY . " -S $host:$port");
+passthru(PHP_BINARY . " -S $host:$port ./src/index.php");
 

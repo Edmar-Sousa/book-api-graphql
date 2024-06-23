@@ -15,7 +15,7 @@ use Src\Schema\Multation\AuthorMultation;
 use Src\Schema\Multation\BookMultation;
 use Src\Schema\Multation\CategoryMultation;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 
 $queryFields = array_merge(
