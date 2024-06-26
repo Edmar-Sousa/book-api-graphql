@@ -1,4 +1,7 @@
 # API de Livros em GraphQL
+Uma pequena api feita em GraphQl e php para praticar php, mysql e GraphQl.
+Estão implementados os endpoints a baixo
+
 
 ## Queries
 
@@ -37,7 +40,7 @@
    - **Argumentos:** 
      - `title: String!`
      - `authorId: ID!`
-     - `categoryIds: [ID!]!`
+     - `categoryIds: ID!`
      - `description: String`
      - `publishedYear: Int`
 
@@ -47,7 +50,7 @@
      - `id: ID!`
      - `title: String`
      - `authorId: ID`
-     - `categoryIds: [ID!]`
+     - `categoryIds: ID!`
      - `description: String`
      - `publishedYear: Int`
 
