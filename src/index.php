@@ -18,6 +18,19 @@ use Src\Schema\Multation\CategoryMultation;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PUT');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+    exit(0);
+}
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PUT');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+
+
 $queryFields = array_merge(
     (new AuthorQuery())->config['fields'],
     (new BookQuery())->config['fields'],
