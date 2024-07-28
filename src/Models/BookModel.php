@@ -75,7 +75,7 @@ class BookModel
 
     public function deleteBook(int $id)
     {
-        $deleteBookSql = 'SELECT * FROM books WHERE id = :id';
+        $deleteBookSql = 'DELETE FROM books WHERE id = :id';
 
         $bookDeleted = $this->getBookWithId($id);
 
